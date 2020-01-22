@@ -14,7 +14,7 @@ const NavItems=(props)=>{
 const NavItem=(props)=>{
     return(
         <Link to={`/${props.label.toLowerCase()}`}>
-            <div key={`/${props.label.toLowerCase()}`} className="nav-item" >{props.label}</div>
+            <div key={`/${props.label.toLowerCase()}`} className="nav-item">{props.label}</div>
         </Link>
     )
 }

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const AddToCart = () => {
     return (
         <Link to='/cart'>
-            <div>Add To Cart</div>
+            <i className="fa fa-shopping-cart">(0)</i>
         </Link>
 
     )
