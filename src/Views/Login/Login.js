@@ -26,7 +26,7 @@ const Login = (props) => {
                 } else {
                     localStorage.setItem("AUTH-TOKEN", `${data.data.token}`);
                     // props.history.push('/');
-                    window.location.href = '/login';
+                    window.location.href = '/';
                 }
             }).catch(err => {
                 console.error(err.code);
@@ -47,7 +47,10 @@ const Login = (props) => {
                         <div className="error">{errors.error}</div>
                     )}
                     <button type="submit">Login</button>
-
+                    <div>
+                        <span>Or Don't Have Account?</span>
+                        <a href="/signup">SignUp</a>
+                    </div>
                 </form>
             </div>
         </div>

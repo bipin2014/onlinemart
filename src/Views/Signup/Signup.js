@@ -53,6 +53,11 @@ const Signup = (props) => {
                         <div className="error">{errors.error}</div>
                     )}
                     <button type="submit">Signup</button>
+                    <div>
+                        <span>Or Already Have Account?</span>
+                        <a href="/login">Login</a>
+                    </div>
+
                 </form>
             </div>
 

@@ -3,7 +3,7 @@ import Navbar from '../../containers/NavBar/NavBar';
 import Body from '../../Views/Body/Body';
 import Footer from '../../containers/Footer/Footer';
 import jwtDecode from 'jwt-decode';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import '../../assets/css/layout.scss';
 
@@ -32,14 +32,13 @@ function Layout() {
     return (
         <main>
             <Router>
-                
                 <Navbar authenticated={authenticated} />
                 <Route path="/" exact component={Body}></Route>
                 <Route path="/home" exact component={Body}></Route>
                 <Route path="/products" exact component={AddProduct}></Route>
                 <AuthRoute path="/login" exact component={Login} authenticated={authenticated} />
                 <AuthRoute path="/signup" exact component={Signup} authenticated={authenticated} />
-                <Route path="/cart" exact component={Cart}></Route>
+                <AuthRoute path="/cart" exact component={Cart} authenticated={!authenticated}></AuthRoute>
                 <Route path="/order" exact component={Order}></Route>
             </Router>
             <Footer />

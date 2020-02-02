@@ -5,7 +5,7 @@ const NavItems=(props)=>{
     return(
         <div className="nav-items">
             {props.items.map(item=>(
-                <NavItem label={item}/>
+                <NavItem label={item.label} key={item.id} id={item.id} to={item.to} dropdown={item.dropdown} />
             ))}
         </div>
     )
@@ -13,8 +13,9 @@ const NavItems=(props)=>{
 
 const NavItem=(props)=>{
     return(
-        <Link to={`/${props.label.toLowerCase()}`}>
-            <div key={`/${props.label.toLowerCase()}`} className="nav-item">{props.label}</div>
+        
+        <Link to={`/${props.to}`} key={`${props.id}`}>
+            <div  className="nav-item">{props.label}</div>
         </Link>
     )
 }

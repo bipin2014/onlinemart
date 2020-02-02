@@ -1,13 +1,39 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios'
 
-const AddToCart = () => {
-    return (
-        <Link to='/cart'>
-            <i className="fa fa-shopping-cart">(0)</i>
-        </Link>
+import React, { Component } from 'react'
 
-    )
+class AddToCart extends Component {
+    state={
+        noofproduct:0
+    }
+
+    componentDidMount(){
+        axios.get('/cart').then(data => {
+            this.setState({
+                noofproduct:data.data.cart.length
+            })
+            console.log(data.data.cart)
+
+        }).catch(err => {
+            console.log(err.code);
+
+        })
+    }
+    render() {
+        return (
+            <Link to='/cart'>
+                <i className="fa fa-shopping-cart">({this.state.noofproduct})</i>
+            </Link>
+        )
+    }
 }
 
-export default AddToCart;
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = {}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddToCart);

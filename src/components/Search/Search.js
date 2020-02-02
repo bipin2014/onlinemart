@@ -2,8 +2,9 @@ import React from 'react';
 
 function Search(){
     return(
-        <div>
-            <input type="text" className="search-item" placeholder="Enter a keyword"/>
+        <div className="search-item">
+            <input type="text"  placeholder="Enter a product name or category"/>
+            <i className="fa fa-search" />
         </div>
     )
 }
