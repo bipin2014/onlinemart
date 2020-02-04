@@ -3,7 +3,9 @@ import img from '../../logo.svg'
 import ImageSlider from '../../components/ImageSlider/ImageSlider';
 import { connect } from 'react-redux';
 import { ADD_TO_CART } from "../../redux/action";
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import * as actionTypes from '../../redux/action';
+import {addToCart} from '../../redux/actions/cartAction'
 
 class Body extends Component {
     state={
@@ -41,13 +43,13 @@ class Body extends Component {
             }
             console.log(cartData);
     
-            axios.post('/cart/add', cartData).then(data => {
-                console.log(data.data);
-            }).catch(err => {
-                console.log(err.code);
-            });
+            // axios.post('/cart/add', cartData).then(data => {
+            //     console.log(data.data);
+            // }).catch(err => {
+            //     console.log(err.code);
+            // });
     
-            this.props.addToCart(p);
+            this.props.addToCart(cartData);
     
         }
         return (
@@ -73,23 +75,12 @@ class Body extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
 
-    return {
-        products: state.products,
-        // cart: state.cart.cart
-    }
+const mapActionsToProps = {
+    addToCart
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addToCart: (product) => {
-            dispatch(ADD_TO_CART(product));
-        }
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Body);
+export default connect(null, mapActionsToProps)(Body);
 
 // <button onClick={handleCartSubmit.bind(this, product)}>Add to Cart</button>
 

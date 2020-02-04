@@ -24,16 +24,14 @@ class AddToCart extends Component {
     render() {
         return (
             <Link to='/cart'>
-                <i className="fa fa-shopping-cart">({this.state.noofproduct})</i>
+                <i className="fa fa-shopping-cart">({this.props.noofitem})</i>
             </Link>
         )
     }
 }
 
 const mapStateToProps = state => ({
-
+    noofitem:state.cart.cart.length
 });
 
-const mapDispatchToProps = {}
-
-export default connect(mapStateToProps,mapDispatchToProps)(AddToCart);
+export default connect(mapStateToProps)(AddToCart);

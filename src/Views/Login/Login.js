@@ -1,61 +1,72 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react';
+import { loginUser } from '../../redux/actions/userAction';
+import { connect } from 'react-redux';
 
 
-const Login = (props) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({});
+class Login extends Component{
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        let userDetail = {
-            "email": email,
-            "password": password,
+    state={
+        email:"",
+        password:"",
+        errors:{}
+    };
+    handleChange = (event) => {
+        this.setState({
+          [event.target.name]: event.target.value
+        });
+      };
+
+      UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.UI.errors) {
+          this.setState({ errors: nextProps.UI.errors });
+        }
+      }
+    
+    render(){
+
+        const handleSubmit = (event) => {
+            event.preventDefault();
+            let userDetail = {
+                "email": this.state.email,
+                "password": this.state.password,
+            }
+            console.log(userDetail);
+            this.props.loginUser(userDetail, this.props.history);
         }
 
-        // alert(`${userDetail.email} ${userDetail.password}`);
-
-        console.log(userDetail);
-        axios.post('/user/login', userDetail)
-            .then(data => {
-                console.log("From inside", data);
-                if (data.data.error) {
-                    // console.log(data.response.data);
-                    setErrors(data.data);
-                } else {
-                    localStorage.setItem("AUTH-TOKEN", `${data.data.token}`);
-                    // props.history.push('/');
-                    window.location.href = '/';
-                }
-            }).catch(err => {
-                console.error(err.code);
-                setErrors(err.response.data);
-            });
-    }
-
-    return (
-        <div className="content">
-            <div className="auth-container">
-                <h1>Login</h1>
-                <form onSubmit={handleSubmit}>
-                    <label>Email:</label>
-                    <input type="email" name="email" placeholder="Enter Email" value={email} onChange={e => setEmail(e.target.value)} required /> <br />
-                    <label>Password:</label>
-                    <input type="password" name="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} required /><br />
-                    {errors.error && (
-                        <div className="error">{errors.error}</div>
-                    )}
-                    <button type="submit">Login</button>
-                    <div>
-                        <span>Or Don't Have Account?</span>
-                        <a href="/signup">SignUp</a>
-                    </div>
-                </form>
+        
+        return (
+            <div className="content">
+                <div className="auth-container">
+                    <h1>Login</h1>
+                    <form onSubmit={handleSubmit}>
+                        <label>Email:</label>
+                        <input type="email" name="email" placeholder="Enter Email" value={this.state.email} onChange={this.handleChange} required /> <br />
+                        <label>Password:</label>
+                        <input type="password" name="password" placeholder="Enter password" value={this.state.password} onChange={this.handleChange} required /><br />
+                        {this.state.errors.error && (
+                            <div className="error">{this.state.errors.error}</div>
+                        )}
+                        <button type="submit">Login</button>
+                        <div>
+                            <span>Or Don't Have Account?</span>
+                            <a href="/signup">SignUp</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
 
-    )
+        )
+    }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+    user: state.user,
+    UI: state.UI
+  });
+
+const mapActionsToProps = {
+    loginUser
+};
+
+export default connect(mapStateToProps,mapActionsToProps)(Login);

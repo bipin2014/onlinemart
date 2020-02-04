@@ -1,17 +1,18 @@
-import React from 'react';
 import Search from '../../components/Search/Search';
 import { Logo } from '../../components/Logo/Logo';
 import AddToCart from '../../components/AddToCart/AddToCart';
 import TopTopNavBar from "../../components/TopTopNavBar/TopTopNavBar";
+import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-function Navbar(props) {
 
-
-    return (
-        <nav className="nav-bar">
-
-                <TopTopNavBar authenticated={props.authenticated}/>
-
+class NavBar extends Component {
+    render() {
+        const { authenticated } = this.props;
+        return (
+            <nav className="nav-bar">
+                <TopTopNavBar authenticated={authenticated}/>
             <div className="second-nav">
                 <Logo />
                 <Search />
@@ -19,6 +20,16 @@ function Navbar(props) {
             </div>
 
         </nav>
-    )
+        )
+    }
 }
-export default Navbar;
+
+NavBar.propTypes = {
+    authenticated: PropTypes.bool.isRequired
+  };
+  
+  const mapStateToProps = (state) => ({
+    authenticated: state.user.authenticated
+  });
+  
+  export default connect(mapStateToProps)(NavBar);
