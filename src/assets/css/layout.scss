@@ -78,15 +78,24 @@ main {
         margin: 0 30px;
         flex-shrink: 0;
         flex-grow: 1;
-
-        input, i {
+        
+        form{
           display: inline-block;
           height: 100%;
-          padding: 15px;
-            &:focus{
-                border: 1px solid $primary-color;
-            }
+          display: flex;
+          flex-shrink: 0;
+          flex-grow: 1;
+          input, i {
+            display: inline-block;
+            height: 100%;
+            padding: 15px;
+              &:focus{
+                  border: 1px solid $primary-color;
+              }
+          }
         }
+
+        
 
         input {
           border: 1px solid #aaa;
@@ -116,7 +125,7 @@ main {
 
   .add-product {
     width: 80%;
-    margin: 85px auto;
+    margin: 5px auto;
     border: 3px solid #000;
     padding: 30px 10px 10px 30px;
   }
@@ -194,6 +203,40 @@ main {
     padding: 10px;
     min-height: 800px;
 
+    .own-container{
+      display: flex;
+      margin: 10px 150px;
+      flex-wrap: wrap;
+      .product{
+        width: 20%;
+        background-color: #fff;
+        margin: 10px;
+        padding: 20px;
+
+        img{
+          width: 100%;
+          height: 250px;
+          object-fit: contain;
+        }
+
+        .button-container{
+          display: flex;
+          width: 100%;
+          button{
+            width: 50%;
+            margin-right:10px;
+          }
+
+          .edit{
+            background-color: blue;
+          }
+          .delete{
+            background-color: red;
+          }
+        }
+      }
+    }
+
     .slider-container {
       width: 100%;
       border: 2px solid #ccc;
@@ -208,6 +251,16 @@ main {
       border-radius: 5px;
     }
 
+    .order-container{
+      margin: 10px 150px;
+      padding: 20px;
+      background-color: #fff;
+      div{
+        font-size: larger;
+        padding: 5px;
+      }
+    }
+
     .auth-container {
       margin: 85px auto;
       width: 50%;
@@ -216,19 +269,43 @@ main {
       padding: 30px;
     }
 
-    // .cart-table-heading{
-    //     display: flex;
-    //     flex-flow: row wrap;
-    //     justify-content: space-around;
-    //     align-items: center;
-    //     border-bottom: 2px solid #ccc;
-    //     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-    //     padding: 10px;
-    //     .table-heading{
-    //         font-size: 20px;
-    //         font-weight: bold;
-    //     }
-    // }
+    .product-container{
+      display: flex;
+      margin-left: 150px;
+      margin-right: 150px;
+      background-color: #fff;
+      .image-area{
+          width: 50%;
+          margin: 10px;
+          img{
+            width: 100%;
+            object-fit: contain;
+          }
+      }
+      .product-details{
+          width: 50%;
+          margin: 10px;
+
+          .line{
+            border-bottom: 2px solid #ccc;
+            margin: 20px 0;
+          }
+          button{
+            padding: 20px;
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 20px;
+            width: 50%;
+          }
+
+          .product-description{
+            font-size: 20px;
+            margin: 20px 0;
+          }
+      }
+    }
+
+    
 
     .cart-container, .checkout-container {
       display: flex;
@@ -249,6 +326,12 @@ main {
           align-items: center;
           background-color: #fff;
           margin: 2px;
+          
+
+          .product-name{
+            flex-basis: 40%;
+          }
+
 
           .cart-image {
             width: 100px;
@@ -298,7 +381,19 @@ main {
       .cart-details {
         background-color: #ddd;
         width: 20%;
-        max-height:320px ;
+        max-height:345px ;
+        label{
+          padding: 0 30px;
+          font-size: larger;
+        }
+        
+        .payment-type{
+          width: 80%;
+          padding: 0 30px;
+          display: flex;
+          
+          
+        }
 
         table {
           width: 80%;
@@ -308,6 +403,7 @@ main {
             border-bottom: 1px solid #fff;
             padding: 5px;
             margin: 5px;
+            
 
             .product-name {
               text-align: left;
@@ -398,6 +494,10 @@ main {
       flex-flow: row wrap;
       margin-left: 150px;
       margin-right: 150px;
+      .link{
+        text-decoration: none;
+        color: #000;
+      }
 
       .product {
         margin: 10px;
@@ -407,6 +507,7 @@ main {
         border-radius: 5px;
         overflow: hidden;
         text-align: center;
+        width: 300px;
         background-color: #fff;
         display: flex;
         flex-direction: column;
@@ -417,14 +518,18 @@ main {
 
         &:hover {
           transform: scale(1.01);
-          // background-image: linear-gradient(#fff, #ccc);
           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
           cursor: pointer;
+          
         }
 
         &:hover .add-to-cart-container{
           display: block;
           opacity: 1;
+        }
+
+        .products_name{
+          width: 90%;
         }
 
         button {

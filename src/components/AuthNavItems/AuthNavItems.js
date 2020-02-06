@@ -2,10 +2,32 @@ import './auth.css';
 import {connect} from 'react-redux';
 import {logoutUser} from '../../redux/actions/userAction';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
+import store from '../../redux/store'
 class AuthNavItems extends Component {
     render() {
+
+        const handleLogout=()=>{
+            this.props.logoutUser();
+        }
+        const NavItem = (props) => {
+            return (
+                <div className="dropdown">
+                    <div className="dropbtn">{props.label} <i className="fa fa-caret-down"></i>
+                    </div>
+                    <div className="dropdown-content">
+                        <a href="/home">Home</a>
+                        <a href="/order">My Orders</a>
+                        {this.props.credentials.usertype==="Buyer"?
+                        <a href="/becomeaseller">Become a Seller</a>:""}
+                        {this.props.credentials.usertype==="Seller"?
+                        <a href="/viewproducts">View your Prodcut</a>:""}
+                        {this.props.credentials.usertype==="Admin"?
+                        <a href="/verifySeller">Verify Seller</a>:""}
+                        <a href="/" onClick={handleLogout}>Logout</a>
+                    </div>
+                </div>
+            )
+        }
         return (
             <div className="nav-items">
             {this.props.items.map(item => (
@@ -16,37 +38,15 @@ class AuthNavItems extends Component {
     }
 }
 
-const NavItem = (props) => {
-    return (
-        <div className="dropdown">
-            <div className="dropbtn">{props.label} <i className="fa fa-caret-down"></i>
-            </div>
-            <div className="dropdown-content">
-                <a href="/home">Home</a>
-                <a href="/becomeaseller">Become a Seller</a>
-                <a href="#" onClick={handleLogout}>Logout</a>
-            </div>
-        </div>
-    )
-}
 
-
-
-const handleLogout=()=>{
-    console.log("Hello");
-    this.props.logoutUser();
-}
-
-AuthNavItems.propTypes = {
-    logoutUser: PropTypes.func.isRequired,
-  };
 
 const mapStateToProps = (state) => ({
-    authenticated: state.user.authenticated
+    authenticated: state.user.authenticated,
+    credentials: state.user.credentials
 });
 
-const mapActionsToProps = {
+const mapActionToProps={
     logoutUser
-};
+}
 
-export default connect(mapStateToProps,mapActionsToProps)(AuthNavItems);
+export default connect(mapStateToProps,mapActionToProps)(AuthNavItems);

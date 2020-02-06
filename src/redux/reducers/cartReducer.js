@@ -6,22 +6,7 @@ import {
 } from '../types';
 
 const initialState = {
-    cart: [{
-        _id: 1,
-        product: {
-            name: "Iphone",
-            price: 100,
-        },
-        quantity: 10,
-    },
-    {
-        _id: 2,
-        product: {
-            name: "Iphone",
-            price: 100,
-        },
-        quantity: 1,
-    }],
+    cart: [],
     total: 0,
 };
 

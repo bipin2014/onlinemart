@@ -8,7 +8,6 @@ const AddProduct = (props) => {
     if (token) {
         axios.defaults.headers.common['AUTH-TOKEN'] = token;
     }
-
     const [productname, setProductname] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState();
@@ -68,35 +67,39 @@ const AddProduct = (props) => {
 
     }
     return (
-        <div className="add-product">
-        <h1>Add Product</h1>
-            <form onSubmit={handleSubmit}>
-                Name: <input type="text" name="name" placeholder="Enter Name of product" onChange={e => setProductname(e.target.value)} /><br />
-                Description: <textarea placeholder="Enter Detail description" onChange={e => setDescription(e.target.value)}></textarea><br />
-                price: <input type="text" name="price" placeholder="Enter price of product" onChange={e => setPrice(e.target.value)} /><br />
-                Brand: <input type="text" name="brand" placeholder="Enter Brand of product" onChange={e => setBrand(e.target.value)} /><br />
-                Warranty: <input type="text" name="warranty" placeholder="Enter Warranty of product" onChange={e => setWarranty(e.target.value)} /><br />
-                Category: <div className="tags-input">
-                    <ul id="category">
-                        {category.map((tag, index) => (
-                            <li key={index} className="tag">
-                                <span className='tag-title'>{tag}</span>
-                                <span className='tag-close-icon'
-                                    onClick={() => removeTags(index)}>x</span>
-                            </li>
-                        ))}
-                    </ul>
-                    <input type="text" onKeyUp={event => event.key === "Enter" ? addTags(event) : null}
-                        placeholder="Press enter to add category"
-                    />
-                </div>
-                DeliveryCharge: <input type="text" name="deliveryCharge" placeholder="Enter DeliveryCharge of product" onChange={e => setDeliveryCharge(e.target.value)} /><br />
-                Image: <input type="file" name="file" onChange={e => setImage(e.target.files[0])} /><br />
-                <button type="submit">Add Product</button>
-            </form>
+        <div className="content">
+            <div className="add-product">
+                <h1>Add Product</h1>
+                <form onSubmit={handleSubmit}>
+                    Name: <input type="text" name="name" placeholder="Enter Name of product" onChange={e => setProductname(e.target.value)} /><br />
+                    Description: <textarea placeholder="Enter Detail description" onChange={e => setDescription(e.target.value)}></textarea><br />
+                    price: <input type="text" name="price" placeholder="Enter price of product" onChange={e => setPrice(e.target.value)} /><br />
+                    Brand: <input type="text" name="brand" placeholder="Enter Brand of product" onChange={e => setBrand(e.target.value)} /><br />
+                    Warranty: <input type="text" name="warranty" placeholder="Enter Warranty of product" onChange={e => setWarranty(e.target.value)} /><br />
+                    Category: <div className="tags-input">
+                        <ul id="category">
+                            {category.map((tag, index) => (
+                                <li key={index} className="tag">
+                                    <span className='tag-title'>{tag}</span>
+                                    <span className='tag-close-icon'
+                                        onClick={() => removeTags(index)}>x</span>
+                                </li>
+                            ))}
+                        </ul>
+                        <input type="text" onKeyUp={event => event.key === "Enter" ? addTags(event) : null}
+                            placeholder="Press enter to add category"
+                        />
+                    </div>
+                    DeliveryCharge: <input type="text" name="deliveryCharge" placeholder="Enter DeliveryCharge of product" onChange={e => setDeliveryCharge(e.target.value)} /><br />
+                    Image: <input type="file" name="file" onChange={e => setImage(e.target.files[0])} /><br />
+                    <button type="submit">Add Product</button>
+                </form>
+
+            </div>
 
         </div>
     )
+
 }
 
 export default AddProduct;

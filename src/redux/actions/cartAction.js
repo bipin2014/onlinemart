@@ -12,7 +12,6 @@ export const getUserCart = () => (dispatch) => {
     dispatch({ type: LOADING_DATA });
 
     axios.get('/cart').then(res => {
-        console.log(res.data);
         dispatch({
             type: SET_CART,
             payload: res.data
@@ -20,6 +19,7 @@ export const getUserCart = () => (dispatch) => {
 
         // dispatch(findTotal())
         let total = 0;
+        console.log("Cart",res.data.cart);
         res.data.cart.forEach(item => (
             total += item.product.price * item.quantity));
         console.log(total);
@@ -45,6 +45,16 @@ export const removeFromCart = (productId) => (dispatch) => {
     dispatch({ type: LOADING_DATA });
 
     axios.delete(`/cart/remove/${productId}`).then(data => {
+        dispatch(getUserCart())
+    }).catch(err => {
+        console.log(err.code);
+    });
+};
+
+export const removeAllCart = () => (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+
+    axios.delete('/cart/removeall').then(data => {
         dispatch(getUserCart())
     }).catch(err => {
         console.log(err.code);
