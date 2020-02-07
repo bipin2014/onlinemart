@@ -28,7 +28,9 @@ class ProductDetails extends Component {
                 })
             }).catch(err => console.error(err));
 
-        axios.get('/products').then(data => {
+            let limit=4;
+
+        axios.get('/products/limit/'+limit).then(data => {
             console.log(data.data);
             this.setState({
                 products: data.data
@@ -78,7 +80,15 @@ class ProductDetails extends Component {
                     </div>
                     <div className="product-details">
                         <h1 className="product-name">{this.state.product.name}</h1>
-                        <div className="product-category">Category: </div>
+                        
+                        <div className="product-category">Category: 
+                        {this.state.product.category?(
+                            <span>{this.state.product.category.map(d=>(
+                                d
+                            ))}</span>
+                        ):""}
+
+                         </div>
                         <h2 className="product-price">${this.state.product.price}</h2>
                         <div className="line"></div>
                         <div className="product-description">{this.state.product.description}</div>
@@ -91,16 +101,18 @@ class ProductDetails extends Component {
                 <div className="section-heading">Other Related Products</div>
                 <div className="products">
                     {this.state.products.map(product => (
-                        <Link to={`/product/${product._id}`} className="link">
-                            <div key={product._id} className="product">
+
+                        <div key={product._id} className="product">
+                            <Link to={`/product/${product._id}`} className="link">
                                 <img className="image" src={product.image ? `http://localhost:5000/${product.image}` : img} alt="img" />
                                 <h3 className="products_name">{product.name}</h3>
                                 <div className="products_price">Price : ${product.price}</div>
-                                <div className="add-to-cart-container">
-                                    <i className="fa fa-cart-plus" onClick={handleCartAdd.bind(this, product)} aria-hidden="true"></i>
-                                </div>
+                            </Link>
+                            <div className="add-to-cart-container">
+                                <i className="fa fa-cart-plus" onClick={handleCartAdd.bind(this, product)} aria-hidden="true"></i>
                             </div>
-                        </Link>
+                        </div>
+
                     ))}
                 </div>
             </div>

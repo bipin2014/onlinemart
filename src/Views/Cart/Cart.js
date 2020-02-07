@@ -4,10 +4,12 @@ import img from "../../logo.svg";
 import { connect } from 'react-redux';
 
 import React, { Component } from 'react'
-import * as actionTypes from '../../redux/action';
 import { getUserCart, removeFromCart } from '../../redux/actions/cartAction';
 
 class Cart extends Component {
+    state={
+        error:null
+    }
     render() {
         const token = localStorage.getItem("AUTH-TOKEN");
         if (token) {
@@ -17,6 +19,20 @@ class Cart extends Component {
         const handleRemove = (p) => {
             this.props.removeFromCart(p);
         }
+        const handleAdd = () => {
+        }
+        const handleSub = () => {
+        }
+        const onCheckout = () => {
+            if(this.props.cart.total>0){
+                this.props.history.push('/checkout');
+            }else{
+                this.setState({
+                    error:"*Please Add Something TO Cart*"
+                })
+            }
+        }
+
         return (
             <div className="content">
                 <div className="heading"> Lets Complete the Order, Shall we?</div>
@@ -31,9 +47,9 @@ class Cart extends Component {
                                     <div className="product-name">{cart.product.name}</div>
                                     <div className="product-price">${cart.product.price}</div>
                                     <div className="product-quantity">
-                                        <i className="fa fa-plus" />
+                                        <i className="fa fa-plus" onClick={handleAdd} />
                                         <input type="text" value={cart.quantity} />
-                                        <i className="fa fa-minus" />
+                                        <i className="fa fa-minus" onClick={handleSub} />
                                     </div>
                                     <div className={"remove-button"} onClick={handleRemove.bind(this, cart._id)}>X</div>
                                 </div>
@@ -73,9 +89,10 @@ class Cart extends Component {
                                 </td>
                             </tr>
                         </table>
-                        <Link to="/checkout">
-                            <button className="checkout" src="">Proceed to Checkout</button>
-                        </Link>
+
+                        <button className="checkout" onClick={onCheckout} src="">Proceed to Checkout</button>
+                        <div className="error-message">{this.state.error && (<span>{this.state.error}</span>)}</div>
+
                     </div>
                 </div>
             </div>

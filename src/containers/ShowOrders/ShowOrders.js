@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class ShowOrders extends Component {
     render() {
         return (
-            <div className="content">
+            <div>
                 <div className="section-heading">Current Order</div>
                 
                 {this.props.orders.map(data => (

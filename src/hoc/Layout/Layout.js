@@ -27,6 +27,7 @@ import NotFound from '../../Views/404/NotFound';
 import ViewOwnProduct from '../../Views/ViewOwnProduct/ViewOwnProduct';
 import BecomeSeller from '../../Views/BecomeSeller/BecomeSeller';
 import VerifySeller from '../../Views/VerifySeller/VerifySeller';
+import EditProduct from '../../Views/EditProduct/EditProduct';
 
 
 
@@ -59,14 +60,15 @@ function Layout() {
                 
                 {token && [
                     <Route path="/addproducts" exact component={AddProduct}></Route>,
+                    <Route path="/editproduct/:id" exact component={EditProduct}></Route>,
                     <Route path="/becomeaseller" exact component={BecomeSeller}></Route>,
                     <Route path="/viewproducts" exact component={ViewOwnProduct}></Route>,
                     <Route path="/verifySeller" exact component={VerifySeller}></Route>,
                     <Route path="/order" exact component={Order}></Route>,
                     <Route path="/checkout" exact component={Checkout}></Route>,
-                    <Route path="/thankyou" exact component={ThankYou}></Route>,
+                    <Route path="/thankyou/:orderId" exact component={ThankYou}></Route>,
                     <CheckAuthRoute path="/cart" exact component={Cart}></CheckAuthRoute>,
-                    <Route path="/order" exact component={Order}></Route>,
+                   
                 ]}
 
             </Router>

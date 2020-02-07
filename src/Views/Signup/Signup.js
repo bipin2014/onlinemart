@@ -31,8 +31,6 @@ const Signup = (props) => {
                     props.history.push('/login');
                     console.log(data.data);
                 }
-                // localStorage.setItem("AUTH-TOKEN", data.data.token);
-                // props.history.push('/');
             }).catch(err => {
                 console.error(err.code);
                 setErrors(err.response.data);
@@ -45,8 +43,8 @@ const Signup = (props) => {
             <div className="auth-container">
                 <h1>Signup</h1>
                 <form onSubmit={handleSubmit}>
+                    Full Name:<input type="text" name="username" placeholder="Enter Username" value={username} onChange={e => setUsername(e.target.value)} required /> <br />
                     Email:<input type="email" name="email" placeholder="Enter Email" value={email} onChange={e => setEmail(e.target.value)} required /> <br />
-                    Username:<input type="text" name="username" placeholder="Enter Username" value={username} onChange={e => setUsername(e.target.value)} required /> <br />
                     Password:<input type="password" name="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} required /><br />
                     Password:<input type="password" name="cpassword" placeholder="Enter Confirm password" value={cpassword} onChange={e => setCPassword(e.target.value)} required /><br />
                     {errors.error && (

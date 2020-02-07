@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import {removeAllCart} from '../../redux/actions/cartAction'
+import { removeAllCart } from '../../redux/actions/cartAction'
 
 class Checkout extends Component {
     state = {
@@ -11,9 +11,9 @@ class Checkout extends Component {
         state: "",
         street: "",
         phone: "",
-        payment:"",
-        error:"",
-        paymentRes:{}
+        payment: "",
+        error: null,
+        paymentRes: {}
     }
 
     handleChange = (event) => {
@@ -24,70 +24,73 @@ class Checkout extends Component {
 
 
     render() {
-        const handleSubmit = (event) => {
-            event.preventDefault();
-            let userDetail = {
-                "email": this.state.email,
-                "password": this.state.password,
-            }
-            console.log(userDetail);
-            this.props.loginUser(userDetail, this.props.history);
-        }
+        // const handleSubmit = (event) => {
+        //     event.preventDefault();
+        //     let userDetail = {
+        //         "email": this.state.email,
+        //         "password": this.state.password,
+        //     }
+        //     console.log(userDetail);
+        //     this.props.loginUser(userDetail, this.props.history);
+        // }
 
-        const onPlaceOrder=()=>{
+        const onPlaceOrder = () => {
             console.log("Place Order");
             console.log(this.state.payment);
 
-            if(this.state.payment===""){
+            if (this.state.payment === "") {
                 this.setState({
-                    error:"Please Select Payment Method"
+                    error: "Please Select Payment Method"
                 })
-            }else if(this.state.payment==="online"){
-                let payData={
-                    "amount":this.props.cart.total,
-                    "paymentType":"online",
-                    "paymentStatus":"Sucess"
+            } else if (this.state.payment === "online") {
+                let payData = {
+                    "amount": this.props.cart.total,
+                    "paymentType": "online",
+                    "paymentStatus": "Sucess"
                 }
-                axios.post('/payment/makePayment',payData).then(res=>{
+                axios.post('/payment/makePayment', payData).then(res => {
                     this.setState({
-                        paymentRes:res.data
+                        paymentRes: res.data
                     })
                     makeOrder();
-                }).catch(err=>{
+                }).catch(err => {
                     console.log(err);
                 })
 
-            }else if(this.state.payment==="offline"){
-                let payData={
-                    "amount":this.props.cart.total,
-                    "paymentType":"offline",
-                    "paymentStatus":"waiting"
+            } else if (this.state.payment === "offline") {
+                let payData = {
+                    "amount": this.props.cart.total,
+                    "paymentType": "offline",
+                    "paymentStatus": "Pay On Delivery"
                 }
-                axios.post('/payment/makePayment',payData).then(res=>{
+                axios.post('/payment/makePayment', payData).then(res => {
                     this.setState({
-                        paymentRes:res.data
+                        paymentRes: res.data
                     })
-                    makeOrder();  
-                }).catch(err=>{
+                    makeOrder();
+                }).catch(err => {
                     console.log(err);
                 });
             }
         }
 
 
-        const makeOrder=()=>{
-            let result = this.props.cart.cart.map(a => a._id);
-            let orderData={
-                    "product":result,
-                    "paymentId":this.state.paymentRes._id
-                }
-                axios.post('/order/makeOrder',orderData).then(res=>{
-                    console.log(res.data);
-                    this.props.removeAllCart();
-                    this.props.history.push('/thankyou');
-                }).catch(err=>{
-                    console.log(err.code);
-                });
+        const makeOrder = () => {
+            let result = this.props.cart.cart.map(a => ({"product":a.product._id}));
+            // let result = this.props.cart.cart.map(a => a._id);
+            console.log(result);
+            
+            let orderData = {
+                "products": result,
+                "paymentId": this.state.paymentRes._id
+            }
+            axios.post('/order/makeOrder', orderData).then(res => {
+                console.log(res.data);
+                this.props.removeAllCart();
+                this.props.history.push('/thankyou/'+res.data._id);
+            }).catch(err => {
+                console.log(err.code);
+            });
         }
 
         return (
@@ -111,7 +114,7 @@ class Checkout extends Component {
                             <label>PHONE *</label>
                             <input type="text" required />
 
-                            <button>Save</button>
+                            
                         </form>
                     </div>
 
@@ -135,14 +138,15 @@ class Checkout extends Component {
                         </table>
 
 
-                        
+
                         <label >Payment Type</label>
                         <div className="payment-type">
-                                
-                                <input type="radio" value="online" name="payment"  onChange={this.handleChange}/> Online
-                                <input type="radio" value="offline" name="payment" onChange={this.handleChange}/> Offline 
+
+                            <input type="radio" value="online" name="payment" onChange={this.handleChange} /> Online
+                                <input type="radio" value="offline" name="payment" onChange={this.handleChange} /> Offline
                         </div>
                         <button className="checkout" onClick={onPlaceOrder}>Place Order</button>
+                        <div className="error-message">{this.state.error && (<span>{this.state.error}</span>)}</div>
                     </div>
 
                 </div>
@@ -159,8 +163,8 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapActionToProps={
+const mapActionToProps = {
     removeAllCart
 }
 
-export default connect(mapStateToProps,mapActionToProps)(Checkout);
+export default connect(mapStateToProps, mapActionToProps)(Checkout);

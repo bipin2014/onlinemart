@@ -2,7 +2,6 @@ import './auth.css';
 import {connect} from 'react-redux';
 import {logoutUser} from '../../redux/actions/userAction';
 import React, { Component } from 'react';
-import store from '../../redux/store'
 class AuthNavItems extends Component {
     render() {
 

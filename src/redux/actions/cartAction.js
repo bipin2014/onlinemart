@@ -1,8 +1,5 @@
 import {
     SET_CART,
-    SET_ERRORS,
-    CLEAR_ERRORS,
-    LOADING_UI,
     LOADING_DATA,
     SET_TOTAL,
 } from '../types';

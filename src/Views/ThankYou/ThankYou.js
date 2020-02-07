@@ -10,9 +10,9 @@ class ThankYou extends Component {
             <div className="content">
                     <div className="ThankyouPage">
                        <h1>Thank you for your order</h1>
-                       <p className="OrderId">Order id is: </p>
-                       <p className="SmallText">You will receive an email confirmation shortly at email@gmail.com</p>
-                        <button onClick={this.shoppingHandler}>See your orders Here</button>
+                       <p className="OrderId">Order id is: {this.props.match.params.orderId}</p>
+                       <p className="SmallText">You will receive an email confirmation shortly.</p>
+                        <button onClick={this.orderHandler}>See your orders Here</button>
                        </div>
                 </div>
         )

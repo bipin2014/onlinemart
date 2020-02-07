@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
 import MultipleValueTextInput from 'react-multivalue-text-input';
 
-const AddProduct = (props) => {
+const EditProduct = (props) => {
 
     const token = localStorage.getItem("AUTH-TOKEN");
     if (token) {
@@ -18,6 +18,23 @@ const AddProduct = (props) => {
     const [image, setImage] = useState(null)
 
     const [category, setCategory] = useState(["apple"]);
+
+    useEffect(() => {
+        axios.get('/products/'+props.match.params.id).then(data=>{
+            console.log("",data.data.body);
+
+            setProductname(data.data.body.name);
+            setDescription(data.data.body.description);
+            setPrice(data.data.body.price);
+            setBrand(data.data.body.brand);
+            setWarranty(data.data.body.warranty);
+            setCategory(data.data.body.category);
+            setDeliveryCharge(data.data.body.deliveryCharge)
+
+        })
+
+        
+    }, [])
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -50,7 +67,7 @@ const AddProduct = (props) => {
         })
             .then(data => {
                 console.log(data.data);
-                props.history.push('/viewproducts');
+                props.history.push('/');
             }).catch(err => {
                 console.error(err.code);
                 setErrors(err.response.data);
@@ -60,27 +77,27 @@ const AddProduct = (props) => {
     return (
         <div className="content">
             <div className="add-product">
-                <h1>Add Product</h1>
+                <h1>Edit Product</h1>
                 <form onSubmit={handleSubmit}>
-                    Name: <input type="text" name="name" placeholder="Enter Name of product" onChange={e => setProductname(e.target.value)} />
-                    Description: <textarea placeholder="Enter Detail description" onChange={e => setDescription(e.target.value)}></textarea>
-                    price: <input type="text" name="price" placeholder="Enter price of product" onChange={e => setPrice(e.target.value)} />
-                    Brand: <input type="text" name="brand" placeholder="Enter Brand of product" onChange={e => setBrand(e.target.value)} />
-                    Warranty: <input type="text" name="warranty" placeholder="Enter Warranty of product" onChange={e => setWarranty(e.target.value)} />
+                    Name: <input type="text" value={productname} name="name" placeholder="Enter Name of product" onChange={e => setProductname(e.target.value)} /><br />
+                    Description: <textarea placeholder="Enter Detail description" onChange={e => setDescription(e.target.value)} value={description}></textarea><br />
+                    price: <input type="text" name="price" value={price} placeholder="Enter price of product" onChange={e => setPrice(e.target.value)} /><br />
+                    Brand: <input type="text" name="brand" value={brand} placeholder="Enter Brand of product" onChange={e => setBrand(e.target.value)} /><br />
+                    Warranty: <input type="text" name="warranty" value={warranty} placeholder="Enter Warranty of product" onChange={e => setWarranty(e.target.value)} /><br />
 
 
                     <MultipleValueTextInput
-                        onItemAdded={(item, allCat) => setCategory(allCat)
-                        }
+                        onItemAdded={(item, allCat) => setCategory(allCat)}
                         onItemDeleted={(item, allCat) => setCategory(allCat)}
                         label="Category"
                         name="category"
+                        className="minput"
                         values={category}
                         placeholder="Enter whatever items you want; separate them with COMMA or ENTER."
                     />
-                    DeliveryCharge: <input type="text" name="deliveryCharge" placeholder="Enter DeliveryCharge of product" onChange={e => setDeliveryCharge(e.target.value)} />
+                    DeliveryCharge: <input type="text" value={deliveryCharge} name="deliveryCharge" placeholder="Enter DeliveryCharge of product" onChange={e => setDeliveryCharge(e.target.value)} /><br />
                     Image: <input type="file" name="file" onChange={e => setImage(e.target.files[0])} /><br />
-                    <button type="submit">Add Product</button>
+                    <button type="submit">Edit Product</button>
                 </form>
 
             </div>
@@ -90,6 +107,6 @@ const AddProduct = (props) => {
 
 }
 
-export default AddProduct;
+export default EditProduct;
 
 
