@@ -1,29 +1,19 @@
 import {
-    SET_CART,
+    SET_POINTS,
     LOADING_DATA,
     SET_TOTAL,
 } from '../types';
 import axios from 'axios';
 
-export const getUserCart = () => (dispatch) => {
+export const getUserCart = (pointData) => (dispatch) => {
     dispatch({ type: LOADING_DATA });
 
-    axios.get('/cart').then(res => {
-        dispatch({
-            type: SET_CART,
-            payload: res.data
-        });
-
-        let total = 0;
-        console.log("Cart",res.data.cart);
-        res.data.cart.forEach(item => (
-            total += item.product.price * item.quantity));
-        console.log(total);
-
-        dispatch({
-            type: SET_TOTAL,
-            total: total
-        });
+    axios.get('/user/add/rewardPoints',pointData).then(res => {
+        // dispatch({
+        //     type: SET_POINTS,
+        //     payload: res.data
+        // });
+        console.log(res.data);
     }).catch(err => console.error(err));
 };
 

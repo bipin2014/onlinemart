@@ -1,27 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react';
+import img from '../../logo.svg'
 
-class ShowOrders extends Component {
-    render() {
-        return (
+
+
+const ShowOrders=(props)=>{
+    return (
+        <div className="order-container">
             <div>
-                <div className="section-heading">Current Order</div>
-                
-                {this.props.orders.map(data => (
-                   
-                    
-                    <div className="order-container">
-                        <div>Order Id:{data._id}</div>
-                        <div>Order Status:{data.isOrderCompleted?"Sucess":"Waiting"}</div>
-                        <div>Payment Type: {data.payment.paymentType}</div>
-                        <div>Payment Status: {data.payment.paymentStatus}</div>
-                        <div>Date: {data.date}</div>
-                        <button>Recieved Product</button>
-                    </div>
-                    
-                ))}
+                <div>Order Id:{props.data._id}</div>
+                <div>Order Status:{props.data.isOrderCompleted ? "Sucess" : "Waiting"}</div>
+                <div>Payment Type: {props.data.payment.paymentType}</div>
+                <div>Payment Status: {props.data.payment.paymentStatus}</div>
+                <div>Date: {props.data.date}</div>
             </div>
-        )
-    }
+            <div className="products">
+                {props.data.products.length > 0 && (
+                    props.data.products.map(d => (
+                        <div className="product">
+                            <img className="image" src={d.product.image ? `http://localhost:5000/${d.product.image}` : img} alt="img" />
+                            <div className="products_name">{d.product.name}</div>
+                        </div>
+                    ))
+                )}
+            </div>
+        </div>
+    )
 }
 
 export default ShowOrders;

@@ -1,11 +1,11 @@
 import './auth.css';
-import {connect} from 'react-redux';
-import {logoutUser} from '../../redux/actions/userAction';
+import { connect } from 'react-redux';
+import { logoutUser } from '../../redux/actions/userAction';
 import React, { Component } from 'react';
 class AuthNavItems extends Component {
     render() {
 
-        const handleLogout=()=>{
+        const handleLogout = () => {
             this.props.logoutUser();
         }
         const NavItem = (props) => {
@@ -14,14 +14,19 @@ class AuthNavItems extends Component {
                     <div className="dropbtn">{props.label} <i className="fa fa-caret-down"></i>
                     </div>
                     <div className="dropdown-content">
+                        <div className="hello-text">
+                            <div>Hello, {this.props.credentials.usertype}</div>
+                            <div>Your Point: {Number(this.props.credentials.rewardPoint).toFixed(2)}</div>
+                        </div>
                         <a href="/home">Home</a>
                         <a href="/order">My Orders</a>
-                        {this.props.credentials.usertype==="Buyer"?
-                        <a href="/becomeaseller">Become a Seller</a>:""}
-                        {this.props.credentials.usertype==="Seller"?
-                        <a href="/viewproducts">View your Prodcut</a>:""}
-                        {this.props.credentials.usertype==="Admin"?
-                        <a href="/verifySeller">Verify Seller</a>:""}
+                        <a href="/myreferals">My Referals</a>
+                        {this.props.credentials.usertype === "Buyer" ?
+                            <a href="/becomeaseller">Become a Seller</a> : ""}
+                        {this.props.credentials.usertype === "Seller" ?
+                            <a href="/viewproducts">View your Prodcut</a> : ""}
+                        {this.props.credentials.usertype === "Admin" ?
+                            <a href="/verifySeller">Verify Seller</a> : ""}
                         <a href="/" onClick={handleLogout}>Logout</a>
                     </div>
                 </div>
@@ -29,10 +34,10 @@ class AuthNavItems extends Component {
         }
         return (
             <div className="nav-items">
-            {this.props.items.map(item => (
-                <NavItem label={item.label} key={item.id} id={item.id} to={item.to} dropdown={item.dropdown} />
-            ))}
-        </div>
+                {this.props.items.map(item => (
+                    <NavItem label={item.label} key={item.id} id={item.id} to={item.to} dropdown={item.dropdown} />
+                ))}
+            </div>
         )
     }
 }
@@ -44,8 +49,8 @@ const mapStateToProps = (state) => ({
     credentials: state.user.credentials
 });
 
-const mapActionToProps={
+const mapActionToProps = {
     logoutUser
 }
 
-export default connect(mapStateToProps,mapActionToProps)(AuthNavItems);
+export default connect(mapStateToProps, mapActionToProps)(AuthNavItems);

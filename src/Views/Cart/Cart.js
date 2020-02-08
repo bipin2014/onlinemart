@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import React, { Component } from 'react'
 import { getUserCart, removeFromCart } from '../../redux/actions/cartAction';
+import {NotificationManager} from 'react-notifications'
 
 class Cart extends Component {
     state={
@@ -18,6 +19,7 @@ class Cart extends Component {
 
         const handleRemove = (p) => {
             this.props.removeFromCart(p);
+            NotificationManager.success('Product Removed!', 'Successful!', 2000);
         }
         const handleAdd = () => {
         }

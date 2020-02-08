@@ -6,6 +6,8 @@ const Search=(props)=>{
 
     const handleSubmit=(event)=>{
         event.preventDefault();
+
+        
         console.log(keyword);
         if(keyword!==""){
             props.history.push('/search/'+keyword);

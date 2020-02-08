@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import { NotificationManager } from 'react-notifications';
 
 export default class VerifySeller extends Component {
     state = {
@@ -28,6 +29,7 @@ export default class VerifySeller extends Component {
             axios.patch('/user/makeSeller/'+id).then(res=>{
                 console.log(res.data);
                 this.getData();
+                NotificationManager.success('Verified user as Seller', 'Successful!', 2000);
             }).catch(err=>{
                 console.log(err.code);
                 
@@ -38,6 +40,7 @@ export default class VerifySeller extends Component {
             axios.delete('/bSeller/'+id).then(res=>{
                 console.log(res.data);
                 this.getData();
+                NotificationManager.success('Buyer Request Cancel Sucessfull', 'Successful!', 2000);
 
             }).catch(err=>{
                 console.log(err.code);

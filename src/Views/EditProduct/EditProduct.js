@@ -38,15 +38,7 @@ const EditProduct = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        let productDetail = {
-            "name": productname,
-            "description": description,
-            "price": parseInt(price),
-            "brand": brand,
-            "category": category,
-            "warranty": warranty,
-            "deliveryCharge": parseInt(deliveryCharge)
-        }
+       
         let bodyFormData = new FormData();
 
         bodyFormData.append("image", image);
@@ -97,6 +89,9 @@ const EditProduct = (props) => {
                     />
                     DeliveryCharge: <input type="text" value={deliveryCharge} name="deliveryCharge" placeholder="Enter DeliveryCharge of product" onChange={e => setDeliveryCharge(e.target.value)} /><br />
                     Image: <input type="file" name="file" onChange={e => setImage(e.target.files[0])} /><br />
+                    {errors && (
+                        <div className="error">{errors}</div>
+                    )}
                     <button type="submit">Edit Product</button>
                 </form>
 

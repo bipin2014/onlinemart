@@ -3,6 +3,7 @@ import { loginUser } from '../../redux/actions/userAction';
 import { connect } from 'react-redux';
 
 
+
 class Login extends Component{
 
     state={
@@ -31,7 +32,8 @@ class Login extends Component{
                 "password": this.state.password,
             }
             console.log(userDetail);
-            this.props.loginUser(userDetail, this.props.history);
+            this.props.loginUser(userDetail);
+            
         }
 
         

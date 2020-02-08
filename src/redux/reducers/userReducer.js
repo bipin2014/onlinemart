@@ -3,6 +3,7 @@ import {
     SET_AUTHENTICATED,
     SET_UNAUTHENTICATED,
     LOADING_USER,
+    SET_POINTS
   } from '../types';
   
   const initialState = {
@@ -31,6 +32,12 @@ import {
           ...state,
           loading: true
         };
+      case SET_POINTS:
+        return {
+          ...state,
+          ...state.credentials,
+          // state.credentials.rewardPoints=action.payload
+        }
       default:
         return state;
     }

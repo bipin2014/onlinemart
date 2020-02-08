@@ -216,6 +216,88 @@ main {
     padding: 10px;
     min-height: 800px;
 
+    .search-product-container{
+      display: flex;
+      margin: 10px 150px;
+      .side-bar{
+        width: 15%;
+        flex-grow: 0;
+        flex-shrink: 0;
+        .side-bar-label{
+          width: 95%;
+          font-size: 20px;
+          font-weight: bold;
+          margin: 10px;
+        }
+
+        .order{
+            width: 90%;
+            background-color: #fff;
+            padding: 10px;
+
+            div{
+              width: 95%;
+              font-size: 20px;
+              font-weight: bold;
+              margin: 10px 0;
+            }
+        }
+        
+      }
+
+      .search-product-container{
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 0;
+        flex-shrink: 0;
+
+        .search-title{
+          font-size: 20px;
+          justify-content: center;
+        }
+        .products{
+
+        }
+      }
+    }
+
+    .referal-container{
+      display: flex;
+      margin: 10px 150px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 10px;
+
+      div{
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+    .referal-person-container{
+      margin: 10px 150px;
+
+      .person-conatiner{
+        display: flex;
+        
+        .person-details{
+          padding: 10px;
+          margin: 10px;
+          background-color: #fff;
+          border-radius: 10px;
+
+          .date{
+            color:#888;
+            text-align: right;
+            margin: 10px 0;
+          }
+        }
+      }
+
+    }
+
     .add-container{
       display: flex;
       margin: 10px 150px;
@@ -483,7 +565,7 @@ main {
       .cart-details {
         background-color: #ddd;
         width: 20%;
-        max-height:345px ;
+        max-height: 382px ;
         label{
           padding: 0 30px;
           font-size: larger;
@@ -493,7 +575,17 @@ main {
           width: 80%;
           padding: 0 30px;
           display: flex;
-          
+          flex-direction: column;
+          div{
+            display: flex;
+            align-items: center;
+            input{
+              width: 10%;
+            }
+            input,p{
+              display: inline;
+            }
+          }
           
         }
 
@@ -588,6 +680,10 @@ main {
       font-size: 30px;
       font-weight: bold;
       padding: 5px;
+      p{
+        display: inline;
+        color: $primary-color;
+      }
     }
 
     .products {

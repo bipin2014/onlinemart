@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { addToCart } from '../../redux/actions/cartAction';
 import { Link } from 'react-router-dom';
+import { NotificationManager } from 'react-notifications';
 
 class Body extends Component {
     state = {
@@ -50,6 +51,7 @@ class Body extends Component {
             }
             console.log(cartData);
             this.props.addToCart(cartData);
+            NotificationManager.success('Product added to Cart Sucessfully!', 'Successful!', 2000);
 
         }
         return (

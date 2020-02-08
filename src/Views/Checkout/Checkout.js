@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { removeAllCart } from '../../redux/actions/cartAction'
+import { removeAllCart } from '../../redux/actions/cartAction';
+import { updateRewardPoint } from '../../redux/actions/userAction'
 
 class Checkout extends Component {
     state = {
@@ -52,7 +53,13 @@ class Checkout extends Component {
                     this.setState({
                         paymentRes: res.data
                     })
+                    let rewardPoint = this.props.user.credentials.rewardPoint + this.props.cart.total * 0.01;
+                    console.log("REward point", rewardPoint);
+
+                    let pointData = { "points": rewardPoint }
+                    this.props.updateRewardPoint(pointData)
                     makeOrder();
+
                 }).catch(err => {
                     console.log(err);
                 })
@@ -66,20 +73,53 @@ class Checkout extends Component {
                 axios.post('/payment/makePayment', payData).then(res => {
                     this.setState({
                         paymentRes: res.data
-                    })
+                    });
+                    let rewardPoint = this.props.user.credentials.rewardPoint + this.props.cart.total * 0.01;
+                    console.log("REward point", rewardPoint);
+
+                    let pointData = { "points": rewardPoint }
+                    this.props.updateRewardPoint(pointData)
                     makeOrder();
                 }).catch(err => {
                     console.log(err);
                 });
+            } else if (this.state.payment === "point") {
+
+                if (this.props.user.credentials.rewardPoint >= this.props.cart.total) {
+                    let payData = {
+                        "amount": this.props.cart.total,
+                        "paymentType": "point",
+                        "paymentStatus": "Sucess"
+                    }
+                    axios.post('/payment/makePayment', payData).then(res => {
+                        this.setState({
+                            paymentRes: res.data
+                        })
+                        let rewardPoint = this.props.user.credentials.rewardPoint - this.props.cart.total;
+                        console.log("REward point", rewardPoint);
+
+                        let pointData = { "points": rewardPoint }
+                        this.props.updateRewardPoint(pointData)
+                        makeOrder();
+
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                } else {
+                    this.setState({
+                        error: "No Sufficient reward Point to pay"
+                    })
+                }
+
             }
         }
 
 
         const makeOrder = () => {
-            let result = this.props.cart.cart.map(a => ({"product":a.product._id}));
+            let result = this.props.cart.cart.map(a => ({ "product": a.product._id }));
             // let result = this.props.cart.cart.map(a => a._id);
             console.log(result);
-            
+
             let orderData = {
                 "products": result,
                 "paymentId": this.state.paymentRes._id
@@ -87,7 +127,7 @@ class Checkout extends Component {
             axios.post('/order/makeOrder', orderData).then(res => {
                 console.log(res.data);
                 this.props.removeAllCart();
-                this.props.history.push('/thankyou/'+res.data._id);
+                this.props.history.push('/thankyou/' + res.data._id);
             }).catch(err => {
                 console.log(err.code);
             });
@@ -114,7 +154,7 @@ class Checkout extends Component {
                             <label>PHONE *</label>
                             <input type="text" required />
 
-                            
+
                         </form>
                     </div>
 
@@ -141,9 +181,18 @@ class Checkout extends Component {
 
                         <label >Payment Type</label>
                         <div className="payment-type">
-
-                            <input type="radio" value="online" name="payment" onChange={this.handleChange} /> Online
-                                <input type="radio" value="offline" name="payment" onChange={this.handleChange} /> Offline
+                            <div>
+                                <input type="radio" value="online" name="payment" onChange={this.handleChange} /> 
+                                <p>Online</p>
+                            </div>
+                            <div>
+                                <input type="radio" value="offline" name="payment" onChange={this.handleChange} /> 
+                                <p>Offline</p>
+                            </div>
+                            <div>
+                                <input type="radio" value="point" name="payment" onChange={this.handleChange} /> 
+                                <p>Pay Through Point</p>
+                            </div>
                         </div>
                         <button className="checkout" onClick={onPlaceOrder}>Place Order</button>
                         <div className="error-message">{this.state.error && (<span>{this.state.error}</span>)}</div>
@@ -160,11 +209,12 @@ class Checkout extends Component {
 const mapStateToProps = (state) => {
     return {
         cart: state.cart,
+        user: state.user
     }
 };
 
 const mapActionToProps = {
-    removeAllCart
+    removeAllCart, updateRewardPoint
 }
 
 export default connect(mapStateToProps, mapActionToProps)(Checkout);

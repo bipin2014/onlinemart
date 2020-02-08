@@ -4,6 +4,7 @@ import img from '../../logo.svg'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addToCart } from '../../redux/actions/cartAction';
+import { NotificationManager } from 'react-notifications';
 
 
 class ProductDetails extends Component {
@@ -70,7 +71,7 @@ class ProductDetails extends Component {
             }
             console.log(cartData);
             this.props.addToCart(cartData);
-
+            NotificationManager.success('Product added to Cart Sucessfully!', 'Successful!', 2000);
         }
         return (
             <div className="content">

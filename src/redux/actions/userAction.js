@@ -5,9 +5,11 @@ import {
     LOADING_UI,
     LOADING_USER,
     SET_AUTHENTICATED,
-    SET_UNAUTHENTICATED
+    SET_UNAUTHENTICATED,
+    LOADING_DATA
 } from '../types';
 import axios from 'axios';
+import { NotificationManager } from 'react-notifications';
 
 export const loginUser = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
@@ -19,13 +21,15 @@ export const loginUser = (userData, history) => (dispatch) => {
                     type: SET_ERRORS,
                     payload: res.data
                 });
+                NotificationManager.error(res.data.error, 'Successful!', 2000);
             } else {
                 setAuthorizationHeader(res.data.token);
                 dispatch({type: SET_AUTHENTICATED})
                 axios.defaults.headers.common['AUTH-TOKEN'] = localStorage.getItem("AUTH-TOKEN");
                 dispatch(getUserData());
                 dispatch({ type: CLEAR_ERRORS });
-                history.push('/');
+                // NotificationManager.success('Logged In', 'Successful!', 2000);
+                window.location.href="/";
             }
         })
         .catch((err) => {
@@ -33,6 +37,7 @@ export const loginUser = (userData, history) => (dispatch) => {
                 type: SET_ERRORS,
                 payload: err.response.data
             });
+            NotificationManager.error(err.response.data, 'Successful!', 2000);
         });
 
 };
@@ -54,6 +59,26 @@ export const getUserData = () => (dispatch) => {
         })
         .catch((err) => console.log(err));
 };
+
+
+// add reward Points
+export const updateRewardPoint = (pointData) => (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+
+    axios.patch('/user/add/rewardPoints',pointData).then(res => {
+        // dispatch({
+        //     type: SET_POINTS,
+        //     payload: res.data
+        // });
+
+        dispatch(getUserData());
+
+        console.log(res.data);
+    }).catch(err => console.error(err));
+};
+
+
+
 
 export const logoutUser = () => (dispatch) => {
     console.log("logout"); 

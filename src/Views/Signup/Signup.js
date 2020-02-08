@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { NotificationManager } from 'react-notifications';
 
 
 const Signup = (props) => {
@@ -7,7 +8,8 @@ const Signup = (props) => {
     const [password, setPassword] = useState("");
     const [cpassword, setCPassword] = useState("");
     const [username, setUsername] = useState("");
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState([]);
+    const [referal, setReferal] = useState("")
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -15,7 +17,8 @@ const Signup = (props) => {
             "email": email,
             "password": password,
             "confirmPassword": cpassword,
-            "name": username
+            "name": username,
+            "referal":referal
         }
 
         // alert(`${userDetail.email} ${userDetail.password}`);
@@ -25,15 +28,15 @@ const Signup = (props) => {
         axios.post('/user/signup', newUserDetail)
             .then(data => {
                 if (data.data.error) {
-                    // console.log(data.response.data);
+                    console.log(data.data.error);
                     setErrors(data.data);
                 } else {
                     props.history.push('/login');
                     console.log(data.data);
+                    NotificationManager.success('Logged In', 'Successful!', 2000);
                 }
             }).catch(err => {
                 console.error(err.code);
-                setErrors(err.response.data);
             });
 
     }
@@ -47,6 +50,7 @@ const Signup = (props) => {
                     Email:<input type="email" name="email" placeholder="Enter Email" value={email} onChange={e => setEmail(e.target.value)} required /> <br />
                     Password:<input type="password" name="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} required /><br />
                     Password:<input type="password" name="cpassword" placeholder="Enter Confirm password" value={cpassword} onChange={e => setCPassword(e.target.value)} required /><br />
+                    Referal Key:<input type="text" name="referal" placeholder="Enter Referal Key" value={referal} onChange={e => setReferal(e.target.value)} /><br />
                     {errors.error && (
                         <div className="error">{errors.error}</div>
                     )}
@@ -55,7 +59,6 @@ const Signup = (props) => {
                         <span>Or Already Have Account?</span>
                         <a href="/login">Login</a>
                     </div>
-
                 </form>
             </div>
 

@@ -1,25 +1,19 @@
 import {
-    SET_CART,
+    SET_POINTS,
     LOADING_DATA,
-    SET_TOTAL,
 } from '../types';
 
 const initialState = {
-    cart: [],
+    user: [],
     total: 0,
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case SET_CART:
+        case SET_POINTS:
             return {
                 ...state,
                 ...action.payload
-            };
-        case SET_TOTAL:
-            return {
-                ...state,
-                total:action.total
             };
         case LOADING_DATA:
             return {

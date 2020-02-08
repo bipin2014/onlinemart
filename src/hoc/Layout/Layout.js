@@ -23,15 +23,18 @@ import { getUserCart } from '../../redux/actions/cartAction';
 import ProductDetails from '../../containers/ProductDetails/ProductDetails';
 import ProductSearch from '../../containers/ProductSearch/ProductSearch';
 import ThankYou from '../../Views/ThankYou/ThankYou';
-import NotFound from '../../Views/404/NotFound';
 import ViewOwnProduct from '../../Views/ViewOwnProduct/ViewOwnProduct';
 import BecomeSeller from '../../Views/BecomeSeller/BecomeSeller';
 import VerifySeller from '../../Views/VerifySeller/VerifySeller';
 import EditProduct from '../../Views/EditProduct/EditProduct';
+import MyReferal from '../../Views/MyReferal/MyReferal';
 
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer } from 'react-notifications';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-
-function Layout() {
+const Layout = (authenticated) => {
     const [token, settoken] = useState(localStorage.getItem("AUTH-TOKEN"))
     if (token) {
         const decodedToken = jwtDecode(token);
@@ -45,6 +48,7 @@ function Layout() {
             store.dispatch(getUserData());
             store.dispatch(getUserCart());
 
+            console.log(authenticated);
         }
     }
     return (
@@ -57,19 +61,29 @@ function Layout() {
                 <Route path="/search/:keyword" exact component={ProductSearch}></Route>
                 <AuthRoute path="/login" exact component={Login} />
                 <AuthRoute path="/signup" exact component={Signup} />
-                
+                <CheckAuthRoute path="/cart" exact component={Cart}></CheckAuthRoute>
+                <NotificationContainer />
                 {token && [
-                    <Route path="/addproducts" exact component={AddProduct}></Route>,
-                    <Route path="/editproduct/:id" exact component={EditProduct}></Route>,
+                    <Route path="/myreferals" exact component={MyReferal}></Route>,
                     <Route path="/becomeaseller" exact component={BecomeSeller}></Route>,
-                    <Route path="/viewproducts" exact component={ViewOwnProduct}></Route>,
-                    <Route path="/verifySeller" exact component={VerifySeller}></Route>,
                     <Route path="/order" exact component={Order}></Route>,
                     <Route path="/checkout" exact component={Checkout}></Route>,
                     <Route path="/thankyou/:orderId" exact component={ThankYou}></Route>,
-                    <CheckAuthRoute path="/cart" exact component={Cart}></CheckAuthRoute>,
-                   
                 ]}
+
+                {authenticated.authenticated === "Seller" && [
+                    <Route path="/addproducts" exact component={AddProduct}></Route>,
+                    <Route path="/editproduct/:id" exact component={EditProduct}></Route>,
+                    <Route path="/viewproducts" exact component={ViewOwnProduct}></Route>,
+                ]}
+                {authenticated.authenticated === 'Admin' && [
+                    <Route path="/verifySeller" exact component={VerifySeller}></Route>,
+                    <Route path="/addproducts" exact component={AddProduct}></Route>,
+                    <Route path="/editproduct/:id" exact component={EditProduct}></Route>,
+                    <Route path="/viewproducts" exact component={ViewOwnProduct}></Route>,
+                ]}
+
+
 
             </Router>
             <Footer />
@@ -77,4 +91,12 @@ function Layout() {
     )
 }
 
-export default Layout;
+const mapStateToProps = (state) => ({
+    authenticated: state.user.credentials.usertype,
+});
+
+Layout.propTypes = {
+    user: PropTypes.object
+};
+
+export default connect(mapStateToProps)(Layout);
