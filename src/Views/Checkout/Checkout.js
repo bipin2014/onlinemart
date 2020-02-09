@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { removeAllCart } from '../../redux/actions/cartAction';
-import { updateRewardPoint } from '../../redux/actions/userAction'
+import { updateRewardPoint } from '../../redux/actions/userAction';
+import RadioButton from '../../components/RadioButton/RadioButton'
 
 class Checkout extends Component {
     state = {
@@ -181,18 +182,24 @@ class Checkout extends Component {
 
                         <label >Payment Type</label>
                         <div className="payment-type">
-                            <div>
-                                <input type="radio" value="online" name="payment" onChange={this.handleChange} /> 
-                                <p>Online</p>
-                            </div>
-                            <div>
-                                <input type="radio" value="offline" name="payment" onChange={this.handleChange} /> 
-                                <p>Offline</p>
-                            </div>
-                            <div>
-                                <input type="radio" value="point" name="payment" onChange={this.handleChange} /> 
-                                <p>Pay Through Point</p>
-                            </div>
+                            
+                            <RadioButton
+                                changed={this.handleChange}
+                                id="1"
+                                isSelected={this.state.payment === "offline"}
+                                label="Cash on Delivery"
+                                value="offline"
+                                name="payment"
+                            />
+                            <RadioButton
+                                changed={this.handleChange}
+                                id="2"
+                                isSelected={this.state.payment === "point"}
+                                label="Derrency"
+                                value="point"
+                                name="payment"
+                            />
+                            
                         </div>
                         <button className="checkout" onClick={onPlaceOrder}>Place Order</button>
                         <div className="error-message">{this.state.error && (<span>{this.state.error}</span>)}</div>

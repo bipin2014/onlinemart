@@ -33,6 +33,7 @@ import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import AddCurrency from '../../Views/AddCurrency/AddCurrency';
 
 const Layout = (authenticated) => {
     const [token, settoken] = useState(localStorage.getItem("AUTH-TOKEN"))
@@ -69,6 +70,7 @@ const Layout = (authenticated) => {
                     <Route path="/order" exact component={Order}></Route>,
                     <Route path="/checkout" exact component={Checkout}></Route>,
                     <Route path="/thankyou/:orderId" exact component={ThankYou}></Route>,
+                    <Route path="/addcurrency" exact component={AddCurrency}></Route>,
                 ]}
 
                 {authenticated.authenticated === "Seller" && [
@@ -84,9 +86,9 @@ const Layout = (authenticated) => {
                 ]}
 
 
-
+                <Footer />
             </Router>
-            <Footer />
+            
         </main>
     )
 }

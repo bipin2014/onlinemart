@@ -70,11 +70,36 @@ export const updateRewardPoint = (pointData) => (dispatch) => {
         //     type: SET_POINTS,
         //     payload: res.data
         // });
+        
 
         dispatch(getUserData());
 
         console.log(res.data);
     }).catch(err => console.error(err));
+};
+
+
+// add reward Points
+export const rechargeCard = (hashData) => (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+
+    axios.post('/payment/addCurrency',hashData).then(res => {
+        console.log("console.error(err)ayoi");
+        if(res.error){
+
+        }else{
+            dispatch(getUserData());
+            // 
+        }
+        
+        
+
+        console.log(res.data);
+    }).catch(err => {
+        console.error(err);
+        console.log("kjashkjfakjbkajdbf");
+        
+    });
 };
 
 

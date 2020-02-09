@@ -1,5 +1,5 @@
 import Search from '../../components/Search/Search';
-import { Logo } from '../../components/Logo/Logo';
+import Logo  from '../../components/Logo/Logo';
 import AddToCart from '../../components/AddToCart/AddToCart';
 import TopTopNavBar from "../../components/TopTopNavBar/TopTopNavBar";
 import {connect} from 'react-redux';

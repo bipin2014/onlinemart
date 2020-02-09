@@ -1,17 +1,18 @@
 import React from 'react';
-import img from '../../logo.svg'
-
-
+import img from '../../logo.svg';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 const ShowOrders=(props)=>{
-    return (
+    dayjs.extend(relativeTime)
+    return (     
         <div className="order-container">
-            <div>
+            <div className="order-details">
                 <div>Order Id:{props.data._id}</div>
                 <div>Order Status:{props.data.isOrderCompleted ? "Sucess" : "Waiting"}</div>
                 <div>Payment Type: {props.data.payment.paymentType}</div>
                 <div>Payment Status: {props.data.payment.paymentStatus}</div>
-                <div>Date: {props.data.date}</div>
+                <div className="date">{dayjs(props.data.date).fromNow() }</div>
             </div>
             <div className="products">
                 {props.data.products.length > 0 && (

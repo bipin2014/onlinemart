@@ -404,6 +404,15 @@ main {
       padding: 20px;
       background-color: #fff;
       display: flex;
+      align-items: center;
+      div{
+        font-size: 18px;
+        padding: 5px;
+        .date{
+          color: #999;
+          margin-top: 10px;
+        }
+      }
       .products {
         display: flex;
         justify-content: space-around;
@@ -439,10 +448,7 @@ main {
   
         }
       }
-      div{
-        font-size: 18px;
-        padding: 5px;
-      }
+      
     }
 
     .auth-container {
@@ -781,7 +787,20 @@ main {
     color: whitesmoke;
     padding: 20px 0 20px 0;
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: space-around;
+
+    // div{
+    //   flex-grow: 1;
+    //   flex-shrink: 1;
+    // }
+    p{
+      text-align: justify;
+    }
+
+    .about-us{
+      flex-basis: 30%;
+    }
   }
 }
 

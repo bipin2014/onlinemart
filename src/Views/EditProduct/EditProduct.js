@@ -14,14 +14,14 @@ const EditProduct = (props) => {
     const [brand, setBrand] = useState("");
     const [warranty, setWarranty] = useState(0);
     const [deliveryCharge, setDeliveryCharge] = useState(0);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState([]);
     const [image, setImage] = useState(null)
 
-    const [category, setCategory] = useState(["apple"]);
+    const [category, setCategory] = useState([]);
 
     useEffect(() => {
         axios.get('/products/'+props.match.params.id).then(data=>{
-            console.log("",data.data.body);
+            console.log("Hellooo",data.data.body);
 
             setProductname(data.data.body.name);
             setDescription(data.data.body.description);
@@ -52,7 +52,7 @@ const EditProduct = (props) => {
 
         
 
-        axios.post('/products', bodyFormData, {
+        axios.patch('/products', bodyFormData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
@@ -62,7 +62,6 @@ const EditProduct = (props) => {
                 props.history.push('/');
             }).catch(err => {
                 console.error(err.code);
-                setErrors(err.response.data);
             });
 
     }
@@ -89,10 +88,7 @@ const EditProduct = (props) => {
                     />
                     DeliveryCharge: <input type="text" value={deliveryCharge} name="deliveryCharge" placeholder="Enter DeliveryCharge of product" onChange={e => setDeliveryCharge(e.target.value)} /><br />
                     Image: <input type="file" name="file" onChange={e => setImage(e.target.files[0])} /><br />
-                    {errors && (
-                        <div className="error">{errors}</div>
-                    )}
-                    <button type="submit">Edit Product</button>
+                    
                 </form>
 
             </div>

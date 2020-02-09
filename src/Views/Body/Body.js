@@ -43,16 +43,20 @@ class Body extends Component {
         }
 
         const handleCartAdd = (p) => {
-            let cartData = {
-                productId: p._id,
-                quantity: 1,
-                price: p.price,
-                total: p.price,
+            if(this.props.authenticated){
+                let cartData = {
+                    productId: p._id,
+                    quantity: 1,
+                    price: p.price,
+                    total: p.price,
+                }
+                console.log(cartData);
+                this.props.addToCart(cartData);
+                NotificationManager.success('Product added to Cart Sucessfully!', 'Successful!', 2000);
+    
+            }else{
+                this.props.history.push('/login')
             }
-            console.log(cartData);
-            this.props.addToCart(cartData);
-            NotificationManager.success('Product added to Cart Sucessfully!', 'Successful!', 2000);
-
         }
         return (
             <div className="content">
@@ -104,5 +108,8 @@ class Body extends Component {
 const mapActionsToProps = {
     addToCart
 };
+const mapStateToProps = (state) => ({
+    authenticated: state.user.authenticated
+});
 
-export default connect(null, mapActionsToProps)(Body);
+export default connect(mapStateToProps, mapActionsToProps)(Body);

@@ -21,6 +21,7 @@ class AuthNavItems extends Component {
                         <a href="/home">Home</a>
                         <a href="/order">My Orders</a>
                         <a href="/myreferals">My Referals</a>
+                        <a href="/addcurrency">Add Currency</a>
                         {this.props.credentials.usertype === "Buyer" ?
                             <a href="/becomeaseller">Become a Seller</a> : ""}
                         {this.props.credentials.usertype === "Seller" ?

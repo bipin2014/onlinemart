@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import MultipleValueTextInput from 'react-multivalue-text-input';
+import { NotificationManager } from 'react-notifications';
 
 const AddProduct = (props) => {
 
@@ -30,6 +31,9 @@ const AddProduct = (props) => {
         //     "warranty": warranty,
         //     "deliveryCharge": parseInt(deliveryCharge)
         // }
+
+        console.log(category);
+
         let bodyFormData = new FormData();
 
         bodyFormData.append("image", image);
@@ -41,8 +45,6 @@ const AddProduct = (props) => {
         bodyFormData.append("warranty", warranty);
         bodyFormData.append("deliveryCharge", parseInt(deliveryCharge));
 
-        
-
         axios.post('/products', bodyFormData, {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -51,9 +53,9 @@ const AddProduct = (props) => {
             .then(data => {
                 console.log(data.data);
                 props.history.push('/viewproducts');
+                NotificationManager.success('Product Added Sucessfully', 'Successful!', 2000);
             }).catch(err => {
                 console.error(err.code);
-                setErrors(err.response.data);
             });
 
     }
@@ -62,6 +64,7 @@ const AddProduct = (props) => {
             <div className="add-product">
                 <h1>Add Product</h1>
                 <form onSubmit={handleSubmit}>
+
                     Name: <input type="text" name="name" placeholder="Enter Name of product" onChange={e => setProductname(e.target.value)} />
                     Description: <textarea placeholder="Enter Detail description" onChange={e => setDescription(e.target.value)}></textarea>
                     price: <input type="text" name="price" placeholder="Enter price of product" onChange={e => setPrice(e.target.value)} />
@@ -70,8 +73,7 @@ const AddProduct = (props) => {
 
 
                     <MultipleValueTextInput
-                        onItemAdded={(item, allCat) => setCategory(allCat)
-                        }
+                        onItemAdded={(item, allCat) => setCategory(allCat)}
                         onItemDeleted={(item, allCat) => setCategory(allCat)}
                         label="Category"
                         name="category"
@@ -80,14 +82,12 @@ const AddProduct = (props) => {
                     />
                     DeliveryCharge: <input type="text" name="deliveryCharge" placeholder="Enter DeliveryCharge of product" onChange={e => setDeliveryCharge(e.target.value)} />
                     Image: <input type="file" name="file" onChange={e => setImage(e.target.files[0])} /><br />
-                    
-                    {errors && (
-                        <div className="error">{errors}</div>
-                    )}
+
+
                     <button type="submit">Add Product</button>
 
                 </form>
-                
+
 
             </div>
 
@@ -97,5 +97,8 @@ const AddProduct = (props) => {
 }
 
 export default AddProduct;
+
+
+
 
 
